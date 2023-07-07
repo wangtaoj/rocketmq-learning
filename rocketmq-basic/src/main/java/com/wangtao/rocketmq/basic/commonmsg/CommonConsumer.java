@@ -1,5 +1,6 @@
 package com.wangtao.rocketmq.basic.commonmsg;
 
+import com.wangtao.rocketmq.basic.Constant;
 import org.apache.rocketmq.client.consumer.DefaultMQPushConsumer;
 import org.apache.rocketmq.client.consumer.listener.ConsumeConcurrentlyContext;
 import org.apache.rocketmq.client.consumer.listener.ConsumeConcurrentlyStatus;
@@ -21,7 +22,7 @@ public class CommonConsumer {
         DefaultMQPushConsumer consumer = new DefaultMQPushConsumer("common_consumer");
 
         // 设置NameServer地址
-        consumer.setNamesrvAddr("192.168.107.128:9876");
+        consumer.setNamesrvAddr(Constant.NAME_SERVER);
         //订阅一个或多个topic，并指定tag过滤条件，这里指定*表示接收所有tag的消息
         consumer.subscribe("commonMsg", "*");
         //注册回调接口来处理从Broker中收到的消息

@@ -1,5 +1,6 @@
 package com.wangtao.rocketmq.basic.commonmsg;
 
+import com.wangtao.rocketmq.basic.Constant;
 import org.apache.rocketmq.client.producer.DefaultMQProducer;
 import org.apache.rocketmq.client.producer.SendResult;
 import org.apache.rocketmq.common.message.Message;
@@ -17,10 +18,10 @@ public class SyncProducer {
         // 初始化一个producer并设置Producer group name
         DefaultMQProducer producer = new DefaultMQProducer("syncProducer");
         // 设置NameServer地址
-        producer.setNamesrvAddr("192.168.107.128:9876");
+        producer.setNamesrvAddr(Constant.NAME_SERVER);
         // 启动producer
         producer.start();
-        for (int i = 0; i < 10; i++) {
+        for (int i = 0; i < 2; i++) {
             // 创建一条消息，并指定topic、tag、body等信息，tag可以理解成标签，对消息进行再归类，RocketMQ可以在消费端对tag进行过滤
             Message msg = new Message("commonMsg",
                     "TagA",
