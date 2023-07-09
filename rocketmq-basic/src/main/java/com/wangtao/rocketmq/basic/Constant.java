@@ -7,4 +7,8 @@ package com.wangtao.rocketmq.basic;
 public interface Constant {
 
     String NAME_SERVER = "127.0.0.1:9876";
+
+    String SUBSCRIBE_INCONSISTENT_TOPIC = "subscribe_inconsistent";
+
+    String SUBSCRIBE_INCONSISTENT_CONSUMER = "subscribe_inconsistent_consumer";
 }
