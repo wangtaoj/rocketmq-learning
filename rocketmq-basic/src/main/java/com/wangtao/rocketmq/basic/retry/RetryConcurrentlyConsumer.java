@@ -25,6 +25,9 @@ public class RetryConcurrentlyConsumer {
      * 无序消息、集群模式
      * 最大重试次数: 16
      * 每次重试时间会递增, 10s 30s 1m等
+     * 完整的重试间隔等级见org.apache.rocketmq.store.config.MessageStoreConfig.messageDelayLevel
+     * 注: 该类在RocketMQ服务端源码中, 重试是在第三个等级开始的, 第一个等级为1s  第二个等级为5s
+     * 也就是说消息重试本质上是通过延时消息实现的, RocketMQ会将消息发送到消费者的重试队列中, 并且设置延时等级
      *
      * 无序消息、广播模式不会进行重试
      * 官方文档: <a href="https://rocketmq.apache.org/zh/docs/4.x/consumer/02push" />
