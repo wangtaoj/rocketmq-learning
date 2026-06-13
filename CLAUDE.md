@@ -16,7 +16,7 @@ mvn clean compile
 mvn clean compile -pl rocketmq-basic
 mvn clean compile -pl rocketmq-spring
 
-# 运行测试（目前无测试类）
+# 运行测试
 mvn test
 ```
 
@@ -25,10 +25,10 @@ mvn test
 父 POM `dependencyManagement` 统一管理以下版本：
 
 - `spring-boot.version` → `2.7.18`（通过 `spring-boot-dependencies` BOM 管理 Spring Boot 全家桶版本，包括 logback、lombok 等）
-- `rocketmq.version` → `4.9.4`
-- `rocketmq-spring-boot-starter.version` → `2.2.2`
+- `rocketmq.version` → `5.3.2`（高版本客户端可连接低版本服务端）
+- `rocketmq-spring-boot-starter.version` → `2.3.6`（同时支持 Spring Boot 2.x 和 3.x）
 
-子模块依赖**不写版本号**，全部由父 POM 或 BOM 管理。
+子模块依赖**不写版本号**，全部由父 POM 或 BOM 管理。rocketmq-spring 的 starter 依赖由父 POM 管理版本，无需额外排除 client/acl。
 
 ## 模块架构
 
@@ -45,6 +45,7 @@ mvn test
 | `ordermsg` | `orderMsg` | 顺序消息，使用 `MessageQueueSelector` 和 `MessageListenerOrderly` |
 | `retry` | `retryMsg` | 消费重试：并发消费16次递增延迟重试 vs 顺序消费无限重试 |
 | `subscribe.inconsistent` | `subscribe_inconsistent` | 同一消费者组订阅关系不一致导致消息丢失的问题演示 |
+| `transactionmsg` | `transactionMsg` | 事务消息，二阶段提交 + 回查机制，半消息存储在 `RMQ_SYS_TRANS_HALF_TOPIC` |
 
 常量定义在 `Constant.java`（NAME_SERVER、topic 名、consumer group 名）。
 
@@ -57,8 +58,6 @@ mvn test
 - **controller/MsgController** — REST 接口 `/msg/*`，通过 `RocketMQTemplate` 发送消息
 - **listener/** — `@RocketMQMessageListener` 消费者，分别处理 String、MessageExt（带 header）、UserVO 对象
 - **vo/UserVO** — Lombok `@Data` 消息对象
-
-spring 模块排除了 starter 自带的 rocketmq-client/acl 以避免版本冲突。
 
 ## 关键约定
 
